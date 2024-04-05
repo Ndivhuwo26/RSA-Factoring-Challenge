@@ -1,7 +1,14 @@
 #!/usr/bin/bash
-FILE=$1
-while read NUMBERS;
-do
-factors=($(factor $NUMBERS))
-echo "$NUMBERS=$(($NUMBERS/${factors[1]}))*${factors[1]}"
-done < $FILE
+
+# Main function
+main() {
+    input_file=$1
+
+    while IFS= read -r number; do
+        factors=$(factor "$number" | sed 's/: /=/; s/ /\*/g')
+        echo "$factors"
+    done < "$input_file"
+}
+
+main "$@"
+
